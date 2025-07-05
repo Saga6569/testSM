@@ -1,13 +1,34 @@
+import * as React from 'react';
+import { View, Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 import './global.css';
-import { Text, View } from 'react-native';
+import FilmsList from './src/screens/FilmsList';
+
+function HomeScreen() {
+  return (
+    <View className="flex-1 items-center justify-center">
+      <Text>Home Screen</Text>
+    </View>
+  );
+}
+
+const Stack = createNativeStackNavigator();
+
+function RootStack() {
+  return (
+    <Stack.Navigator initialRouteName="Main">
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Main" component={FilmsList} />
+    </Stack.Navigator>
+  );
+}
 
 export default function App() {
-  console.log('App');
   return (
-    <View className="flex-1 items-center justify-center bg-white">
-      <Text className="text-xl font-bold text-blue-500">
-        Welcom e to Nativewind!
-      </Text>
-    </View>
+    <NavigationContainer>
+      <RootStack />
+    </NavigationContainer>
   );
 }

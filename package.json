@@ -11,11 +11,16 @@
   },
   "dependencies": {
     "@react-native/new-app-screen": "0.80.1",
+    "@react-navigation/elements": "^2.5.2",
+    "@react-navigation/native-stack": "^7.3.21",
+    "@shopify/flash-list": "^1.8.3",
     "nativewind": "^4.1.23",
     "react": "19.1.0",
     "react-native": "0.80.1",
+    "react-native-gesture-handler": "^2.27.1",
     "react-native-reanimated": "^3.18.0",
-    "react-native-safe-area-context": "^5.4.0"
+    "react-native-safe-area-context": "^5.5.1",
+    "react-native-screens": "^4.11.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
@@ -40,6 +45,6 @@
     "typescript": "5.0.4"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=16"
   }
 }
