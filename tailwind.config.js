@@ -4,7 +4,16 @@ module.exports = {
   content: ['./App.{js,jsx,ts,tsx}', './src/**/*.{js,jsx,ts,tsx}'],
   presets: [require('nativewind/preset')],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        montserrat: ['Montserrat'],
+      },
+      colors: {
+        'def': '#ffffff', // по умолчанию белый
+        'def-dark': '#000000', // для тёмной темы
+      },
+    },
   },
   plugins: [],
+  darkMode: 'class', // или 'media'
 };

@@ -1,52 +1,53 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
-import { Movie } from '../api';
+import { Movie } from '../store/slices/moviesSlice';
 import { FlashList } from '@shopify/flash-list';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { fetchMovies, setCurrentElement } from '../store/slices/moviesSlice';
+import { useNavigation } from '@react-navigation/native';
 
+const MovieCard = React.memo(
+  ({ item, onPress }: { item: Movie; onPress: () => void }) => {
+    return (
+      <TouchableOpacity
+        className="flex-1 items-center mb-4 p-2"
+        onPress={onPress}
+      >
+        {item.posterUrl ? (
+          <Image
+            source={{ uri: item.posterUrl }}
+            className="w-40 h-60 rounded-lg mb-2 border-4 border-blue-500"
+            resizeMode="cover"
+          />
+        ) : (
+          <View className="w-40 h-60 rounded-lg mb-2 border-4 border-blue-500 bg-gray-600 items-center justify-center">
+            <Text className="text-white text-center px-2">Нет постера</Text>
+          </View>
+        )}
+        <Text className="text-base text-white text-center mb-1">
+          {item.nameRu ?? item.nameOriginal}
+        </Text>
+        <Text className="text-sm text-gray-300">
+          Рейтинг: {item.ratingKinopoisk}
+        </Text>
+        <Text className="text-sm text-gray-300">Год: {item.year}</Text>
+      </TouchableOpacity>
+    );
+  },
+);
 
-const MovieCard = React.memo(({ item }: { item: Movie }) => {
-  return (
-    <TouchableOpacity className="flex-1 items-center mb-4 p-2">
-      {item.posterUrl ? (
-        <Image
-          source={{ uri: item.posterUrl }}
-          className="w-40 h-60 rounded-lg mb-2 border-4 border-blue-500"
-          resizeMode="cover"
-        />
-      ) : (
-        <View className="w-40 h-60 rounded-lg mb-2 border-4 border-blue-500 bg-gray-600 items-center justify-center">
-          <Text className="text-white text-center px-2">Нет постера</Text>
-        </View>
-      )}
-      <Text className="text-base text-white text-center mb-1">
-        {item.nameRu ?? item.nameOriginal}
-      </Text>
-      <Text className="text-sm text-gray-300">
-        Рейтинг: {item.ratingKinopoisk}
-      </Text>
-      <Text className="text-sm text-gray-300">Год: {item.year}</Text>
-    </TouchableOpacity>
+const RenderItemsList = () => {
+  const dispatch = useAppDispatch();
+  const navigation = useNavigation();
+  const { movies, isLoading, error, currentPage, totalPages } = useAppSelector(
+    (state: any) => state.movies,
   );
-});
-
-const RenderItemsList = (props: any) => {
-  const {
-    data,
-    isLoading,
-    error,
-    fetchNextPage,
-    // hasNextPage,
-    // isFetchingNextPage,
-  } = props;
-
-  console.log(data, 'render1 ');
-
-  // Получаем все фильмы из всех страниц
-
 
   // Оптимизированный renderItem
   const renderItem = React.useCallback(
-    ({ item }: { item: Movie }) => <MovieCard item={item} />,
+    ({ item, onPress }: { item: Movie; onPress: () => void }) => (
+      <MovieCard item={item} onPress={onPress} />
+    ),
     [],
   );
 
@@ -55,10 +56,10 @@ const RenderItemsList = (props: any) => {
     `${item.kinopoiskId}_${index}`;
 
   const handleUpdate = React.useCallback(() => {
-    // if (hasNextPage && !isFetchingNextPage) {
-    fetchNextPage();
-    // }
-  }, [fetchNextPage]);
+    if (currentPage <= totalPages) {
+      dispatch(fetchMovies(currentPage));
+    }
+  }, [dispatch, currentPage, totalPages]);
 
   if (isLoading) {
     return (
@@ -78,16 +79,25 @@ const RenderItemsList = (props: any) => {
 
   return (
     <View className="flex-1 bg-gray-700 p-4">
-      <Text className="text-xl font-bold text-center mb-4 text-blue-400">
-        Галерея фильмов ({data.length} фильмов)
+      <Text className="text-xl font-bold text-center mb-4 text-blue-400 font-montserrat">
+        Галерея фильмов ({movies.length} фильмов)
       </Text>
       <FlashList
         onEndReached={handleUpdate}
         onEndReachedThreshold={3}
-        data={data}
+        data={movies}
         keyExtractor={keyExtractor}
-        renderItem={renderItem}
+        renderItem={({ item }) =>
+          renderItem({
+            item,
+            onPress: () => {
+              dispatch(setCurrentElement(item));
+              navigation.navigate('Item' as never);
+            },
+          })
+        }
         numColumns={2}
+        estimatedItemSize={316}
         removeClippedSubviews={true}
         ListFooterComponent={
           isLoading ? (
