@@ -43,7 +43,9 @@ const MovieCard = React.memo(
             <Text className={`${textDef}`}>{t('movies.noPoster')}</Text>
           </View>
         )}
-        <Text className={`${textDef} text-center text-base mb-1`}>
+        <Text
+          className={`${textDef} text-xl font-montserrat mb-1 text-center`}
+        >
           {item.nameRu ?? item.nameOriginal}
         </Text>
         <Text className={`${textDef}`}>
@@ -180,6 +182,16 @@ const RenderItemsList = () => {
 
   return (
     <View className={`flex-1 p-4 ${bgDef}`}>
+      {/* Кнопка тестирования шрифтов */}
+      <TouchableOpacity
+        className="mb-4 bg-blue-500 px-4 py-2 rounded-lg"
+        onPress={() => navigation.navigate('FontTest' as never)}
+      >
+        <Text className="text-white font-montserrat text-center">
+          Тест шрифтов
+        </Text>
+      </TouchableOpacity>
+
       <View className="mb-4">
         <TextInput
           className={`${bgDef} ${textDef} px-4 py-3 rounded-lg border border-gray-500`}

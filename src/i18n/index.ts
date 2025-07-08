@@ -14,16 +14,14 @@ const resources = {
   },
 };
 
-i18n
-  .use(initReactI18next)
-  .init({
-    resources,
-    lng: 'ru', // язык по умолчанию
-    fallbackLng: 'en', // резервный язык
-    interpolation: {
-      escapeValue: false, // React уже экранирует значения
-    },
-    compatibilityJSON: 'v3', // для React Native
-  });
+i18n.use(initReactI18next).init({
+  resources,
+  lng: 'ru',
+  fallbackLng: 'en',
+  interpolation: {
+    escapeValue: false,
+  },
+  compatibilityJSON: 'v4',
+});
 
 export default i18n;

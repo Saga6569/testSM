@@ -1,16 +1,17 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Provider } from 'react-redux';
 import { store } from './src/store';
-import { useState, useEffect } from 'react';
+
 import { Switch, View } from 'react-native';
 import './global.css';
 import './src/i18n'; // Инициализация i18n
 import FilmsList from './src/screens/FilmsList';
 import Item from './src/screens/Item';
 import Authorization from './src/screens/Authorization';
+import FontTest from './src/screens/FontTest';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { ThemeProvider, useTheme } from './src/contexts/ThemeContext';
@@ -23,7 +24,7 @@ const Stack = createNativeStackNavigator();
 const HeaderSwitch = () => {
   const { isDarkMode, setIsDarkMode } = useTheme();
   const { bgDef, textDef } = useThemeClasses();
-    const navigation = useNavigation();
+  const navigation = useNavigation();
 
   return (
     <View className="flex flex-row items-center justify-between w-full">
@@ -52,22 +53,24 @@ const HeaderSwitch = () => {
 };
 
 const RootStack = () => {
-  const [token, setToken] = useState<string | null>(null);
+
   const navigation = useNavigation();
 
   useEffect(() => {
     const fetchToken = async () => {
-      const token = await AsyncStorage.getItem('token');
-      setToken(token);
+      const token = await AsyncStorage.getItem('myToken');
+      if (token !== null) {
+        navigation.navigate('Main' as never);
+      }
     };
     fetchToken();
-  }, []);
+  }, [navigation]);
 
-  useEffect(() => {
-    if (token === null) {
-      navigation.navigate('Main' as never);
-    }
-  }, [token, navigation]);
+  // useEffect(() => {
+  //   if (token === null) {
+  //     navigation.navigate('Main' as never);
+  //   }
+  // }, [token, navigation]);
 
   return (
     <Stack.Navigator
@@ -76,12 +79,14 @@ const RootStack = () => {
         headerTintColor: '#fff',
         headerTitleStyle: { fontWeight: 'bold', fontFamily: 'Montserrat' },
       }}
-      initialRouteName={token !== null ? 'Main' : 'Authorization'}
+      initialRouteName={'Authorization'}
     >
       <Stack.Screen
         name="Authorization"
         component={Authorization}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+        }}
       />
       <Stack.Screen
         name="Main"
@@ -92,6 +97,11 @@ const RootStack = () => {
         }}
       />
       <Stack.Screen name="Item" component={Item} />
+      <Stack.Screen
+        name="FontTest"
+        component={FontTest}
+        options={{ title: 'Тест шрифтов' }}
+      />
     </Stack.Navigator>
   );
 };
