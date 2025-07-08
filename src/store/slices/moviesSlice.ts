@@ -93,7 +93,6 @@ const moviesSlice = createSlice({
     setCurrentElement: (state, action: PayloadAction<Movie>) => {
       state.currentElement = action.payload;
     },
-
   },
   extraReducers: builder => {
     builder
@@ -105,7 +104,6 @@ const moviesSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchMovies.fulfilled, (state, action) => {
-        console.log(action.payload, 'action.payload');
         state.isLoading = false;
         if (action.payload.page === 1) {
           // Первая страница - заменяем фильмы
@@ -126,5 +124,6 @@ const moviesSlice = createSlice({
   },
 });
 
-export const { clearMovies, setCurrentPage, setCurrentElement } = moviesSlice.actions;
+export const { clearMovies, setCurrentPage, setCurrentElement } =
+  moviesSlice.actions;
 export default moviesSlice.reducer;

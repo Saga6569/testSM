@@ -1,0 +1,55 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "cancel": "Cancel",
+    "ok": "OK",
+    "retry": "Retry",
+    "share": "Share",
+    "favorites": "Favorites",
+    "information": "Information"
+  },
+  "movies": {
+    "gallery": "Movie Gallery",
+    "moviesCount": "{{count}} movies",
+    "noMoviesFound": "No movies found",
+    "searchPlaceholder": "Search movies...",
+    "rating": "Rating",
+    "year": "Year",
+    "noPoster": "No poster",
+    "loadingMore": "Loading more movies...",
+    "refreshing": "Refreshing...",
+    "pleaseWait": "Please wait"
+  },
+  "movieDetails": {
+    "loadingInfo": "Loading movie information...",
+    "description": "Description",
+    "noDescription": "No description",
+    "country": "Country",
+    "countries": "Countries",
+    "genre": "Genre",
+    "genres": "Genres",
+    "notSpecified": "Not specified",
+    "notSpecifiedPlural": "Not specified"
+  },
+  "notifications": {
+    "movieSelected": "Movie selected! 🎬",
+    "openDetails": "Open detailed information?",
+    "open": "Open",
+    "movieInfo": "Movie Information 📽️",
+    "title": "Title",
+    "addedToFavorites": "Add to Favorites ❤️",
+    "addedToFavoritesSuccess": "Movie \"{{title}}\" added to favorites!",
+    "excellent": "Excellent!",
+    "shareMovie": "Share Movie 📤",
+    "shareMovieConfirm": "Share information about movie \"{{title}}\"?",
+    "shareSuccess": "Success! ✅",
+    "shareSuccessMessage": "Movie information copied to clipboard",
+    "loadingError": "Loading error"
+  },
+  "actions": {
+    "movieInfo": "📽️ Movie Information",
+    "addToFavorites": "❤️ Add to Favorites",
+    "shareMovie": "�� Share Movie"
+  }
+}
