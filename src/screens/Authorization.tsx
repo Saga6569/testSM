@@ -10,9 +10,13 @@ const Authorization: React.FC = () => {
   const navigation = useNavigation();
   // const [token, setToken] = useState<string | null>(null);
 
+
+
   const handleSubmit = async () => {
     if (!isLogin) {
-      await AsyncStorage.setItem('myToken', `${password} ${email}`);
+      await AsyncStorage.setItem(`password`, `${password}`);
+      await AsyncStorage.setItem(`email`, `${email}`);
+      await AsyncStorage.setItem(`${password} ${email}`, 'great');
       Alert.alert('Успешно', 'Вы успешно зарегистрировались');
       navigation.navigate('Main' as never);
       return;
@@ -22,10 +26,10 @@ const Authorization: React.FC = () => {
       Alert.alert('Ошибка', 'Пожалуйста, заполните все поля');
       return;
     }
+    const token = await AsyncStorage.getItem(`${password} ${email}`);
 
-    const token = await AsyncStorage.getItem('myToken');
-
-    if (token !== null) {
+    console.log(token);
+    if (token === null) {
       Alert.alert('Ошибка', 'Такого пользователя не существует');
       return;
     }

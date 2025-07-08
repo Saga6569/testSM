@@ -53,24 +53,19 @@ const HeaderSwitch = () => {
 };
 
 const RootStack = () => {
-
   const navigation = useNavigation();
 
   useEffect(() => {
     const fetchToken = async () => {
-      const token = await AsyncStorage.getItem('myToken');
-      if (token !== null) {
+      const pass = await AsyncStorage.getItem(`password`);
+      const email = await AsyncStorage.getItem(`email`);
+      const token = await AsyncStorage.getItem(`${pass} ${email}`);
+      if (token === 'great') {
         navigation.navigate('Main' as never);
       }
     };
     fetchToken();
-  }, [navigation]);
-
-  // useEffect(() => {
-  //   if (token === null) {
-  //     navigation.navigate('Main' as never);
-  //   }
-  // }, [token, navigation]);
+  }, []);
 
   return (
     <Stack.Navigator
